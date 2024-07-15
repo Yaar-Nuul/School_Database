@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+
 class Classes(models.Model):
     class_id = models.PositiveSmallIntegerField(primary_key=True)
     room_number = models.CharField(max_length=20)
@@ -13,3 +13,4 @@ class Classes(models.Model):
     equipment = models.TextField()
     def __str__(self) -> str:
         return f"{self.teacher_allocated} teaches {self.course_tought}"
+    
