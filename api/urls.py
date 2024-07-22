@@ -8,7 +8,7 @@ from .views import StudentDetailview
 from .views import ClassesDetailview
 from .views import CoursesDetailview
 from .views import ClassPeriodDetailview
-from .views import TeacherDetailview
+from .views import TeacherDetailview    
 
 urlpatterns=[
     path("students/",StudentListView.as_view(),name="student_list_view"),
