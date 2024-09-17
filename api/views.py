@@ -79,6 +79,13 @@ class ClassesListView(APIView):
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST) 
+        
+        first_name = request.query_param.get("first_name")
+        if first_name:
+            student = Student.filter(first_name = first_name)
+            serializer= StudentSerializer(student, many= True)
+            return request
+
 class ClassesDetailview(APIView):
     def put(self,request,id):
         classes= Classes.objects.get(id=id)
@@ -91,7 +98,20 @@ class ClassesDetailview(APIView):
     def delete(self,request,id):
        classes=Classes.objects.get(id=id)
        classes.delete()
-       return Response(status=status.HTTP_202_ACCEPTED)         
+       return Response(status=status.HTTP_202_ACCEPTED)  
+
+    def enroll(self, student, course_id):
+        course = Courses.objects.get(id = course_id)
+        student.courses.add(course)   
+
+    def post(self, request, id):
+        student = Student.objects.get(id = id)
+        action= request.data.get("action")
+        if action == "enroll":
+           course_id = request.data.get(course_id)
+           self.enroll(Student, course_id)
+           return Response(status=status.HTTP_201_CREATED)
+    
 
 class TeacherListView(APIView):
     def get(self, request):
@@ -147,7 +167,7 @@ class ClassPeriodDetailview(APIView):
        return Response(status=status.HTTP_202_ACCEPTED)         
 
                      
-        
+    
        
 
 
